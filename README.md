@@ -28,3 +28,6 @@ https://github.com/Windows-On-Linux/Repo
 # Custom repository
 
 If you want to use a custom repository, you can add the following argument to Wineget command: wineget -i Appname -r RepoURL
+
+
+Made with ❤️ from 🇮🇹
