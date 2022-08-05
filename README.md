@@ -10,6 +10,7 @@ Wineget is very lightweight, the size of package is only 1,43Mb and don't requir
 
 # Build and run
 
+To build .deb, .rpm or AUR script you must install the following crates: https://crates.io/crates/cargo-deb, https://crates.io/crates/cargo-rpm and https://crates.io/crates/cargo-aur
 ```console
 cargo run -- -i Appname # Run Wineget
 cargo install cargo-deb # Install cargo-deb to produce .deb file
