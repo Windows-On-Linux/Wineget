@@ -24,6 +24,3 @@ buildflags = ["--release"]
 
 [package.metadata.rpm.targets]
 wineget = { path = "/usr/bin/wineget" }
-
-[package.metadata.appimage]
-auto_link = true
