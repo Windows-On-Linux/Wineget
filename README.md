@@ -15,6 +15,7 @@ cargo run -- -i Appname # Run Wineget
 cargo install cargo-deb # Install cargo-deb to produce .deb file
 cargo deb # Build .deb file
 cargo rpm # Build .rpm file
+cargo aur # Build AUR script for Arch Linux and derived
 ```
 
 # New applications support

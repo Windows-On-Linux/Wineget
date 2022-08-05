@@ -4,9 +4,10 @@ version = "1.0.0"
 edition = "2021"
 readme = "README.md"
 repository = "https://github.com/Windows-On-Linux/Wineget"
-license = "GPL-2.0-or-later"
+license = "LICENSE"
 description = "Wineget(WNG) is a package manager for Wine written with Rust"
 authors = ["Andrea055"]
+homepage = "https://github.com/Windows-On-Linux/"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
