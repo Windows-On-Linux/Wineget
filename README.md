@@ -14,6 +14,7 @@ Wineget is very lightweight, the size of package is only 1,43Mb and don't requir
 cargo run -- -i Appname # Run Wineget
 cargo install cargo-deb # Install cargo-deb to produce .deb file
 cargo deb # Build .deb file
+cargo rpm # Build .rpm file
 ```
 
 # New applications support
