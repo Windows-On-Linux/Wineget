@@ -10,7 +10,9 @@ You can install new applications using the following command: Wineget -i Appname
 # Build and run
 
 ```console
-cargo run -- -i Appname
+cargo run -- -i Appname # Run Wineget
+cargo install cargo-deb # Install cargo-deb to produce .deb file
+cargo deb # Build .deb file
 ```
 
 # New applications support
