@@ -6,6 +6,7 @@ This is the repository of Wineget project, a package manager for Wine.
 
 You can install new applications using the following command: Wineget -i Appname
 
+Wineget is very lightweight, the size of package is only 1,43Mb and don't require any dependencies!
 
 # Build and run
 
