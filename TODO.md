@@ -1,2 +1,2 @@
 - Add support to multiple repositories
-- Add search function
+- ~~Add search function~~ Added in 1.1

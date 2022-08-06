@@ -2,9 +2,9 @@
 %define __os_install_post %{_dbpath}/brp-compress
 %define debug_package %{nil}
 
-Name: wineget
+name: wineget
 Summary: Wineget(WNG) is a package manager for Wine written with Rust
-Version: @@VERSION@@
+version: @@VERSION@@
 Release: @@RELEASE@@%{?dist}
 License: GPLv2+
 Group: Applications/System
