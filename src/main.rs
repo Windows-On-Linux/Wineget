@@ -1,7 +1,9 @@
 mod repo;
 mod installer;
-mod clone;
 mod search;
+mod open;
+mod parser;
+mod clone;
 extern crate sargparse;
 use std::process::exit;
 use sargparse::{ArgumentParser, ArgumentType};
@@ -9,6 +11,7 @@ use std::fs;
 
 #[tokio::main]
 async fn main() {
+
     let mut parser = ArgumentParser::new(Some("Wineget, The package manager for Wine"));
     parser.add_argument("-i", "--install", "Program you want to install",
                         false, None, ArgumentType::STR);
@@ -19,6 +22,10 @@ async fn main() {
     parser.add_argument("-l", "--list", "List all applications in the repository",
                         false, None, ArgumentType::STR);
     parser.add_argument("-c", "--clear", "Clear downloads folder, where the installation script are downloaded",
+                        false, None, ArgumentType::STR);
+    parser.add_argument("-o", "--open", "Open an executable in Selected application prefix", 
+                        false, None, ArgumentType::STR);
+    parser.add_argument("-a", "-app", "App which want to execute in wineprefix, need also -o argument", 
                         false, None, ArgumentType::STR);
 
     // Check if there is any argument passed, else the program won't panic
@@ -33,6 +40,8 @@ async fn main() {
     let search = args.get("search").unwrap().get_str();
     let list = args.get("list").unwrap().get_str();
     let clear = args.get("clear").unwrap().get_str();
+    let open = args.get("open").unwrap().get_str();
+    let app = args.get("app").unwrap().get_str();
     // Check if user want to use a custom repository
     if repo == "" {
         // Default repository
@@ -59,48 +68,28 @@ async fn main() {
         println!("Clear complete successfully");
         exit(0);
     }
+
+    if !open.is_empty(){
+        if !app.is_empty(){
+            // Open an executable in selected application prefix
+            open::open_app_in_prefix(open, app);
+        }else{
+            println!("Please specify application to run in prefix");
+        }
+        exit(0);
+    }
+
     // If -h or other parameters aren't specified, we show a welcome message
     if appname.is_empty() {
         println!("Welcome to Wineget, the package manager for Wine, to install a program type Wineget -i name of application that you want to install");
         exit(0);
     }
 
+
     // Downloading repository
     println!("Updating repository...");
     let repos = repo::update_repo(&repo).await;
-    for i in 0..repos.as_array().unwrap().len(){
-        let app_name_from_repo = repos.get(i).unwrap()["CliName"].as_str().unwrap();
-        // Search for application
-        if  app_name_from_repo == appname {
-            let url = repos.get(i).unwrap()["Repository"].as_str().unwrap();
-            let program_name = repos.get(i).unwrap()["Path"].as_str().unwrap();
-            // We find the program
-            println!("\nFind {} in {} Git repository. \nAre you sure to install this program?[Y/N]", app_name_from_repo, url);
-            // Require confirm by user
-            let mut confirm = String::new();
-            std::io::stdin().read_line(&mut confirm).unwrap();
-            // If user accept the installation, clone repository via git2 for Rust library and run script
-            if confirm.to_lowercase().contains("y") {
-                println!("Cloning repository...");
-                let name = program_name.split("/").last().unwrap();
-                // Create PathBug for ~/wol/downloads, the folder where WOL apps downloads script
-                let dir = dirs::home_dir().unwrap().as_path().join("wol").join("Downloads").join(name);
-                if clone::clonerepo(url, name, dir.clone()){
-                    println!("Clone finished successfully, starting the installation script");
-                    // Run script
-                    installer::install(dir.join("build.sh"));
-                    // The installation script is started, close Wineget
-                    exit(0);
-                }else{
-                    panic!("Error during cloning repository");
-                };
-            }else{
-                // N in pressed
-                println!("Abort installation");
-                exit(0);
-            };
-        };
-    }
+    parser::search_and_install(repos, appname, &clone::clonerepo);
     // If program don't exit first, the program isn't found in repository
     println!("Program not found in repository");
 }
