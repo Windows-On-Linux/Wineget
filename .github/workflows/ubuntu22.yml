@@ -20,3 +20,7 @@ jobs:
       run: cargo install cargo-deb
     - name: Build .deb file
       run: cargo deb
+    - uses: actions/upload-artifact@v3
+      with:
+        name: .Deb
+        path: target/debian/wineget_1.2.0_amd64.deb
